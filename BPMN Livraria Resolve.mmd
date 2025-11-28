@@ -1,0 +1,44 @@
+graph TD
+    A[Início: Pedido Recebido] --> B[Realizar Cadastro do Cliente];
+        B --> C[Registrar Pedido];
+            C --> D[Validar Pedido e Cadastro];
+                D --> E{Pedido Válido?};
+                    E -->|Recusado| F[Fim: Pedido Recusado];
+                        E -->|Aprovado| G[Procurar Fornecedores do Livro];
+                            
+                                G --> H{Fonte da Busca};
+                                    H -->|Estoque Próprio| I[Verificar Estoque Local];
+                                        H -->|Externo| J[Consultar Distribuidores e Editoras];
+                                            I --> K{Livro em Estoque?};
+                                                
+                                                    subgraph Cotação e Compra
+                                                            L[Realizar Cotação de Preços] --> M[Preparar e Enviar Proposta];
+                                                                    M --> N[Receber Aprovação do Cliente];
+                                                                            N --> O[Separar Pedido para Compra];
+                                                                                    O --> P[Emitir Requisição aos Fornecedores];
+                                                                                        end
+
+                                                                                            J --> Q[Criar Lista de Fornecedores];
+                                                                                                K -->|Sim| Q;
+                                                                                                    K -->|Não| J;
+                                                                                                        Q --> L;
+                                                                                                            
+                                                                                                                P --> R[Acompanhar Recebimento dos Livros];
+                                                                                                                    R --> S{Todos os itens recebidos/cancelados?};
+                                                                                                                        S -->|Não| R;
+                                                                                                                            S -->|Sim| T[Consolidar Pedido];
+                                                                                                                                
+                                                                                                                                    T --> U[Recalcular Preços Finais];
+                                                                                                                                        U --> V{Aprovar Descontos?};
+                                                                                                                                            V -->|Sim| W[Aplicar Descontos];
+                                                                                                                                                V -->|Não| X[Processar Pagamento do Cliente];
+                                                                                                                                                    W --> X;
+                                                                                                                                                        
+                                                                                                                                                            X --> Y{Iniciar Envio};
+                                                                                                                                                                Y -->|Preparar| Z[Preparar Pacote e Enviar];
+                                                                                                                                                                    Y -->|Notificar| AA[Notificar Cliente sobre Envio];
+                                                                                                                                                                        
+                                                                                                                                                                            Z --> BB[Fim: Pedido Concluído];
+                                                                                                                                                                                AA --> BB;
+
+                                                                                                                                                                                
