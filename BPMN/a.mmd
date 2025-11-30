@@ -1,0 +1,56 @@
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#2b2b2b', 'edgeLabelBackground':'#2b2b2b', 'tertiaryColor': '#1f1f1f'}}}%%
+graph LR
+    %% Definição das Raias (Swimlanes)
+    subgraph Sistema_Lane [🤖 Sistema Inteligente]
+        direction TB
+        A[Monitorar Prazos & Status]
+        B{Atraso Detectado?}
+        C[Notificar Gerência]
+        D((Fim do Mês))
+        E[Processar Dados Financeiros]
+        F[Gerar Dashboard de Performance]
+        G[Atualizar Status no Portal]
+    end
+
+    subgraph Gerencia_Lane [👔 Gerência Operacional]
+        direction TB
+        H[Receber Alerta de Atraso]
+        I[Contatar Fornecedor]
+        J[Atualizar Previsão]
+    end
+
+    subgraph Diretoria_Lane [📈 Diretoria Estratégica]
+        direction TB
+        K[Acessar Dashboard Financeiro]
+        L[Análise de Lucros e Perdas]
+        M[Tomada de Decisão]
+    end
+
+    %% FLUXO OPERACIONAL (Status e Atrasos)
+    A --> G
+    A --> B
+    B -- Não --> A
+    B -- Sim --> C
+    C --> H
+    H --> I
+    I --> J
+    J --> G
+    
+    %% FLUXO FINANCEIRO (Relatórios)
+    D --> E
+    E -->|Automático| F
+    F --> K
+    K --> L
+    L --> M
+    
+    %% ESTILIZAÇÃO DARK MODE
+    %% Sistema: Azul Profundo
+    classDef system fill:#0d47a1,stroke:#42a5f5,stroke-width:2px,color:#fff;
+    %% Gerência: Roxo Escuro
+    classDef manager fill:#4a148c,stroke:#ab47bc,stroke-width:2px,color:#fff;
+    %% Diretoria: Verde Escuro (Foco em dinheiro/meta)
+    classDef director fill:#1b5e20,stroke:#66bb6a,stroke-width:2px,color:#fff;
+    
+    class A,B,C,D,E,F,G system;
+    class H,I,J manager;
+    class K,L,M director;
