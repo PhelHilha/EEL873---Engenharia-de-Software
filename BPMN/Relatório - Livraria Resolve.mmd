@@ -1,7 +1,7 @@
 %%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#2b2b2b', 'edgeLabelBackground':'#2b2b2b', 'tertiaryColor': '#1f1f1f'}}}%%
 graph LR
     %% Definição das Raias (Swimlanes)
-    subgraph Sistema_Lane [🤖 Sistema Inteligente]
+    subgraph Sistema_Lane [Sistema Automatizado]
         direction TB
         A[Monitorar Prazos & Status]
         B{Atraso Detectado?}
@@ -12,14 +12,14 @@ graph LR
         G[Atualizar Status no Portal]
     end
 
-    subgraph Gerencia_Lane [👔 Gerência Operacional]
+    subgraph Gerencia_Lane [Gerência Operacional]
         direction TB
         H[Receber Alerta de Atraso]
         I[Contatar Fornecedor]
         J[Atualizar Previsão]
     end
 
-    subgraph Diretoria_Lane [📈 Diretoria Estratégica]
+    subgraph Diretoria_Lane [Diretoria]
         direction TB
         K[Acessar Dashboard Financeiro]
         L[Análise de Lucros e Perdas]
