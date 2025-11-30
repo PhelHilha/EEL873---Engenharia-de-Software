@@ -3,17 +3,17 @@ graph LR
     %% Definição das Raias (Swimlanes) com títulos claros
     subgraph Cliente_Lane [👤 Cliente - Autoatendimento]
         direction TB
-        A[Acessar Portal]
-        B[Preencher Formulário]
+        A[Acessar Plataforma de Cadastro]
+        B[Preencher Formulário de Dados do Cliente]
         C[Corrigir Dados]
         D[Receber Confirmação]
     end
 
     subgraph Sistema_Lane [🤖 Sistema Automatizado]
         direction TB
-        E{Dados Válidos?}
+        E{Os dados são válidos?}
         F{Cliente já existe?}
-        G{Regra de Risco?}
+        G{Regra de Risco}
         H[Registrar no BD]
         I[Enviar E-mail]
         J[Notificar Erro]
@@ -55,7 +55,6 @@ graph LR
     H --> I
     I --> D
     
-    %% ESTILIZAÇÃO DARK MODE (Alto Contraste)
     %% Cliente: Cinza Escuro com borda Ciano
     classDef actor fill:#37474f,stroke:#00bcd4,stroke-width:2px,color:#fff;
     
