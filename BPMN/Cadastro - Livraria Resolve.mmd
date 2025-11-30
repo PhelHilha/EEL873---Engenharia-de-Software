@@ -1,1 +1,63 @@
+graph LR
+    %% Definição das Raias (Swimlanes)
+    subgraph Cliente_Lane [Cliente]
+        direction TB
+        A[Acessar Portal]
+        B[Preencher Formulário]
+        C[Corrigir Dados]
+        D[Receber Confirmação]
+    end
 
+    subgraph Sistema_Lane [Sistema Automatizado]
+        direction TB
+        E{Dados Válidos?}
+        F{Cliente já existe?}
+        G{Regra de Risco/Crédito?}
+        H[Registrar no Banco de Dados]
+        I[Enviar E-mail de Boas-vindas]
+        J[Notificar Erro de Validação]
+    end
+
+    subgraph Gerencia_Lane [Gerência - Apenas Exceções]
+        direction TB
+        K[Análise Manual de Crédito]
+        L{Aprovar?}
+    end
+
+    %% Fluxo
+    A --> B
+    B --> E
+    
+    %% Validações Automáticas
+    E -- Não --> J
+    J --> C
+    C --> E
+    
+    E -- Sim --> F
+    F -- Sim --> J2[Sugerir Recuperação de Senha]
+    J2 --> A
+    
+    F -- Não --> G
+    
+    %% Decisão de Automação vs Humano
+    G -- Baixo Risco --> H
+    G -- Alto Risco/Pendência --> K
+    
+    %% Intervenção Humana
+    K --> L
+    L -- Recusado --> M[Enviar Motivo da Recusa]
+    M --> C
+    L -- Aprovado --> H
+    
+    %% Finalização
+    H --> I
+    I --> D
+    
+    %% Estilização para clareza
+    classDef actor fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef system fill:#e1f5fe,stroke:#0277bd,stroke-width:2px;
+    classDef manager fill:#fff9c4,stroke:#fbc02d,stroke-width:2px;
+    
+    class A,B,C,D actor;
+    class E,F,G,H,I,J,J2 system;
+    class K,L,M manager;
