@@ -1,11 +1,8 @@
 graph TD
-    A[Início: Pedido Recebido] --> B[Realizar Cadastro do Cliente];
-        B --> C[Registrar Pedido];
-            C --> D[Validar Pedido e Cadastro];
-                D --> E{Pedido Válido?};
-                    E -->|Recusado| F[Fim: Pedido Recusado];
-                        E -->|Aprovado| G[Procurar Fornecedores do Livro];
-                            
+    A[Início: Pedido Recebido] --> C[Registrar Pedido];
+            C --> D[Validar Cadastro];
+                D --> |Recusado| F[Fim: Não possui cadastro];
+                        D -->|Aprovado| G[Possui cadastro, procurar Fornecedores do Livro];
                                 G --> H{Fonte da Busca};
                                     H -->|Estoque Próprio| I[Verificar Estoque Local];
                                         H -->|Externo| J[Consultar Distribuidores e Editoras];
