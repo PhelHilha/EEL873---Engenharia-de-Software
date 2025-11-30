@@ -1,6 +1,7 @@
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#2b2b2b', 'edgeLabelBackground':'#2b2b2b', 'tertiaryColor': '#1f1f1f'}}}%%
 graph LR
-    %% Definição das Raias (Swimlanes)
-    subgraph Cliente_Lane [Cliente]
+    %% Definição das Raias (Swimlanes) com títulos claros
+    subgraph Cliente_Lane [👤 Cliente - Autoatendimento]
         direction TB
         A[Acessar Portal]
         B[Preencher Formulário]
@@ -8,44 +9,44 @@ graph LR
         D[Receber Confirmação]
     end
 
-    subgraph Sistema_Lane [Sistema Automatizado]
+    subgraph Sistema_Lane [🤖 Sistema Automatizado]
         direction TB
         E{Dados Válidos?}
         F{Cliente já existe?}
-        G{Regra de Risco/Crédito?}
-        H[Registrar no Banco de Dados]
-        I[Enviar E-mail de Boas-vindas]
-        J[Notificar Erro de Validação]
+        G{Regra de Risco?}
+        H[Registrar no BD]
+        I[Enviar E-mail]
+        J[Notificar Erro]
     end
 
-    subgraph Gerencia_Lane [Gerência - Apenas Exceções]
+    subgraph Gerencia_Lane [👔 Gerência - Exceções]
         direction TB
-        K[Análise Manual de Crédito]
+        K[Análise de Crédito]
         L{Aprovar?}
     end
 
-    %% Fluxo
+    %% Conexões
     A --> B
     B --> E
     
-    %% Validações Automáticas
+    %% Validações
     E -- Não --> J
     J --> C
     C --> E
     
     E -- Sim --> F
-    F -- Sim --> J2[Sugerir Recuperação de Senha]
+    F -- Sim --> J2[Sugerir Recuperação]
     J2 --> A
     
     F -- Não --> G
     
-    %% Decisão de Automação vs Humano
+    %% Decisão Automática
     G -- Baixo Risco --> H
-    G -- Alto Risco/Pendência --> K
+    G -- Alto Risco --> K
     
-    %% Intervenção Humana
+    %% Decisão Humana
     K --> L
-    L -- Recusado --> M[Enviar Motivo da Recusa]
+    L -- Recusado --> M[Enviar Motivo]
     M --> C
     L -- Aprovado --> H
     
@@ -53,11 +54,17 @@ graph LR
     H --> I
     I --> D
     
-    %% Estilização para clareza
-    classDef actor fill:#f9f,stroke:#333,stroke-width:2px;
-    classDef system fill:#e1f5fe,stroke:#0277bd,stroke-width:2px;
-    classDef manager fill:#fff9c4,stroke:#fbc02d,stroke-width:2px;
+    %% ESTILIZAÇÃO DARK MODE (Alto Contraste)
+    %% Cliente: Cinza Escuro com borda Ciano
+    classDef actor fill:#37474f,stroke:#00bcd4,stroke-width:2px,color:#fff;
     
-    class A,B,C,D actor;
-    class E,F,G,H,I,J,J2 system;
+    %% Sistema: Azul Noturno com borda Azul Claro
+    classDef system fill:#0d47a1,stroke:#42a5f5,stroke-width:2px,color:#fff;
+    
+    %% Gerência: Roxo Escuro com borda Lilás
+    classDef manager fill:#4a148c,stroke:#ab47bc,stroke-width:2px,color:#fff;
+    
+    %% Aplicação das classes
+    class A,B,C,D,J2 actor;
+    class E,F,G,H,I,J system;
     class K,L,M manager;
