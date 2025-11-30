@@ -23,6 +23,7 @@ graph LR
         direction TB
         K[Análise de Crédito]
         L{Aprovar?}
+        M{Enviar Motivo}
     end
 
     %% Conexões
@@ -46,7 +47,7 @@ graph LR
     
     %% Decisão Humana
     K --> L
-    L -- Recusado --> M[Enviar Motivo]
+    L -- Recusado --> M
     M --> C
     L -- Aprovado --> H
     
