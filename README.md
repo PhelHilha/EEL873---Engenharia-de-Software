@@ -1,6 +1,5 @@
 ========================================================================
-                PROJETO DE ENGENHARIA DE SOFTWARE
-                     SISTEMA LIVRARIA RESOLVE
+                SISTEMA LIVRARIA RESOLVE - GRUPO F
 ========================================================================
 
 INSTITUIÇÃO:
