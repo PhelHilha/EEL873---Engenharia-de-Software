@@ -1,5 +1,7 @@
-
-SISTEMA LIVRARIA RESOLVE - GRUPO F
+========================================================================
+                PROJETO DE ENGENHARIA DE SOFTWARE
+                  SISTEMA LIVRARIA RESOLVE - GRUPO F
+========================================================================
 
 INSTITUIÇÃO:
 Universidade Federal do Rio de Janeiro - UFRJ
@@ -8,9 +10,9 @@ DISCIPLINA:
 Engenharia de Software (EEL873)
 
 INTEGRANTES DO GRUPO:
-- Raphael Henrique da Silva Pereira
-- Paulo César Vaz de Barros
 - Enzo de Carvalho Sampaio
+- Paulo César Vaz de Barros
+- Raphael Henrique da Silva Pereira
 
 ------------------------------------------------------------------------
 SOBRE O PROJETO
@@ -55,7 +57,14 @@ O repositório está organizado com os seguintes artefatos de documentação:
    - Aba 2: Matriz MoSCoW
      * Priorização dos desejos (Must Have, Should Have, Could Have, Won't Have).
    - Aba 3: Histórias de Usuário (User Stories)
-     * Lista completa de 20 histórias formatadas (Como um... Desejo... Para...).
+     * Lista de histórias formatadas (Como um... Desejo... Para...).
      * Mapeamento de requisitos funcionais alinhados ao Diagrama de Casos de Uso.
 
+4. PASTA: BPMN
+   --------------------------------------------------
+   Conteúdo: Modelagem de Processos de Negócio (BPMN) do sistema.
+   - Arquivos divididos por macroprocesso:
+     * Registro: Fluxo de cadastro e validação de clientes/pedidos.
+     * Venda: Fluxo completo de cotação, proposta e fechamento de venda.
+     * Relatório: Fluxo de geração e análise de relatórios gerenciais.
 ========================================================================
