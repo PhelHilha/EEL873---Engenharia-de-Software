@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_Relatorios_ToBe" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="18.9.0">
+  <bpmn:collaboration id="Collaboration_Relatorios">
+    <bpmn:participant id="Participant_Livraria" name="Livraria Resolve (Processo atualizado)" processRef="Process_Relatorios_ToBe" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_Relatorios_ToBe" isExecutable="true">
+    <bpmn:laneSet id="LaneSet_Relatorios">
+      <bpmn:lane id="Lane_Sistema" name="Sistema Inteligente">
+        <bpmn:flowNodeRef>StartEvent_Fechamento</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_ProcessarDados</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_GerarDashboard</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_NotificarDiretoria</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartEvent_Monitoramento</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_VerificarPrazos</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Atraso</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_SemAtrasos</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_AtualizarStatusPortal</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_AlertarGerencia</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_Resolvido</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Gerencia" name="Gerência (Exceções)">
+        <bpmn:flowNodeRef>Activity_TratarAtraso</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Diretoria" name="Diretoria (Estratégia)">
+        <bpmn:flowNodeRef>Activity_AnalisarDashboard</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_AnaliseConcluida</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="StartEvent_Fechamento" name="Fim do Mês (Automático)">
+      <bpmn:outgoing>Flow_R1</bpmn:outgoing>
+      <bpmn:timerEventDefinition />
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Activity_ProcessarDados" name="Processar Vendas e Custos (BD)">
+      <bpmn:incoming>Flow_R1</bpmn:incoming>
+      <bpmn:outgoing>Flow_R2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_GerarDashboard" name="Atualizar Dashboard BI">
+      <bpmn:incoming>Flow_R2</bpmn:incoming>
+      <bpmn:outgoing>Flow_R3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sendTask id="Activity_NotificarDiretoria" name="Notificar Diretoria">
+      <bpmn:incoming>Flow_R3</bpmn:incoming>
+      <bpmn:outgoing>Flow_R4</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:userTask id="Activity_AnalisarDashboard" name="Analisar Indicadores (Tomada de Decisão)">
+      <bpmn:incoming>Flow_R4</bpmn:incoming>
+      <bpmn:outgoing>Flow_R5</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="EndEvent_AnaliseConcluida" name="Fechamento Concluído">
+      <bpmn:incoming>Flow_R5</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:startEvent id="StartEvent_Monitoramento" name="Verificação Diária (6:00 AM)">
+      <bpmn:outgoing>Flow_M1</bpmn:outgoing>
+      <bpmn:timerEventDefinition />
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Activity_VerificarPrazos" name="Varrer Pedidos em Aberto">
+      <bpmn:incoming>Flow_M1</bpmn:incoming>
+      <bpmn:outgoing>Flow_M2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_Atraso" name="Atraso Detectado?">
+      <bpmn:incoming>Flow_M2</bpmn:incoming>
+      <bpmn:outgoing>Flow_Atraso_Nao</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Atraso_Sim</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="EndEvent_SemAtrasos" name="Tudo OK">
+      <bpmn:incoming>Flow_Atraso_Nao</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Activity_TratarAtraso" name="Contatar Fornecedor / Resolver">
+      <bpmn:incoming>Flow_09qsuq8</bpmn:incoming>
+      <bpmn:outgoing>Flow_M4</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_R1" sourceRef="StartEvent_Fechamento" targetRef="Activity_ProcessarDados" />
+    <bpmn:sequenceFlow id="Flow_R2" sourceRef="Activity_ProcessarDados" targetRef="Activity_GerarDashboard" />
+    <bpmn:sequenceFlow id="Flow_R3" sourceRef="Activity_GerarDashboard" targetRef="Activity_NotificarDiretoria" />
+    <bpmn:sequenceFlow id="Flow_R4" sourceRef="Activity_NotificarDiretoria" targetRef="Activity_AnalisarDashboard" />
+    <bpmn:sequenceFlow id="Flow_R5" sourceRef="Activity_AnalisarDashboard" targetRef="EndEvent_AnaliseConcluida" />
+    <bpmn:sequenceFlow id="Flow_M1" sourceRef="StartEvent_Monitoramento" targetRef="Activity_VerificarPrazos" />
+    <bpmn:sequenceFlow id="Flow_M2" sourceRef="Activity_VerificarPrazos" targetRef="Gateway_Atraso" />
+    <bpmn:sequenceFlow id="Flow_Atraso_Nao" name="Não" sourceRef="Gateway_Atraso" targetRef="EndEvent_SemAtrasos" />
+    <bpmn:sequenceFlow id="Flow_Atraso_Sim" name="Sim" sourceRef="Gateway_Atraso" targetRef="Activity_AlertarGerencia" />
+    <bpmn:sequenceFlow id="Flow_M3" sourceRef="Activity_AlertarGerencia" targetRef="Activity_AtualizarStatusPortal" />
+    <bpmn:sequenceFlow id="Flow_M4" sourceRef="Activity_TratarAtraso" targetRef="Activity_AtualizarStatusPortal" />
+    <bpmn:sequenceFlow id="Flow_M5" sourceRef="Activity_AtualizarStatusPortal" targetRef="EndEvent_Resolvido" />
+    <bpmn:serviceTask id="Activity_AtualizarStatusPortal" name="Atualizar Novo Prazo no Portal">
+      <bpmn:incoming>Flow_M4</bpmn:incoming>
+      <bpmn:incoming>Flow_M3</bpmn:incoming>
+      <bpmn:outgoing>Flow_M5</bpmn:outgoing>
+      <bpmn:outgoing>Flow_09qsuq8</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_09qsuq8" sourceRef="Activity_AtualizarStatusPortal" targetRef="Activity_TratarAtraso" />
+    <bpmn:sendTask id="Activity_AlertarGerencia" name="Enviar Alerta de Atraso">
+      <bpmn:incoming>Flow_Atraso_Sim</bpmn:incoming>
+      <bpmn:outgoing>Flow_M3</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:endEvent id="EndEvent_Resolvido" name="Incidente Tratado">
+      <bpmn:incoming>Flow_M5</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_Relatorios">
+    <bpmndi:BPMNPlane id="BPMNPlane_Relatorios" bpmnElement="Collaboration_Relatorios">
+      <bpmndi:BPMNShape id="Participant_Livraria_di" bpmnElement="Participant_Livraria" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="1300" height="550" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Diretoria_di" bpmnElement="Lane_Diretoria" isHorizontal="true">
+        <dc:Bounds x="190" y="480" width="1270" height="150" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Gerencia_di" bpmnElement="Lane_Gerencia" isHorizontal="true">
+        <dc:Bounds x="190" y="330" width="1270" height="150" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Sistema_di" bpmnElement="Lane_Sistema" isHorizontal="true">
+        <dc:Bounds x="190" y="80" width="1270" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_Fechamento_di" bpmnElement="StartEvent_Fechamento">
+        <dc:Bounds x="250" y="180" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_ProcessarDados_di" bpmnElement="Activity_ProcessarDados">
+        <dc:Bounds x="340" y="158" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_GerarDashboard_di" bpmnElement="Activity_GerarDashboard">
+        <dc:Bounds x="490" y="158" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_NotificarDiretoria_di" bpmnElement="Activity_NotificarDiretoria">
+        <dc:Bounds x="640" y="158" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_AnalisarDashboard_di" bpmnElement="Activity_AnalisarDashboard">
+        <dc:Bounds x="640" y="520" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_AnaliseConcluida_di" bpmnElement="EndEvent_AnaliseConcluida">
+        <dc:Bounds x="790" y="542" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_Monitoramento_di" bpmnElement="StartEvent_Monitoramento">
+        <dc:Bounds x="900" y="180" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_VerificarPrazos_di" bpmnElement="Activity_VerificarPrazos">
+        <dc:Bounds x="990" y="158" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_Atraso_di" bpmnElement="Gateway_Atraso" isMarkerVisible="true">
+        <dc:Bounds x="1140" y="173" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_SemAtrasos_di" bpmnElement="EndEvent_SemAtrasos">
+        <dc:Bounds x="1147" y="100" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1088" y="113" width="44" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_TratarAtraso_di" bpmnElement="Activity_TratarAtraso">
+        <dc:Bounds x="1250" y="370" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_AtualizarStatusPortal_di" bpmnElement="Activity_AtualizarStatusPortal">
+        <dc:Bounds x="1250" y="240" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_AlertarGerencia_di" bpmnElement="Activity_AlertarGerencia">
+        <dc:Bounds x="1250" y="129" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_Resolvido_di" bpmnElement="EndEvent_Resolvido">
+        <dc:Bounds x="1400" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1367" y="173" width="86" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_R1_di" bpmnElement="Flow_R1">
+        <di:waypoint x="286" y="198" />
+        <di:waypoint x="340" y="198" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_R2_di" bpmnElement="Flow_R2">
+        <di:waypoint x="440" y="198" />
+        <di:waypoint x="490" y="198" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_R3_di" bpmnElement="Flow_R3">
+        <di:waypoint x="590" y="198" />
+        <di:waypoint x="640" y="198" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_R4_di" bpmnElement="Flow_R4">
+        <di:waypoint x="690" y="238" />
+        <di:waypoint x="690" y="520" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_R5_di" bpmnElement="Flow_R5">
+        <di:waypoint x="740" y="560" />
+        <di:waypoint x="790" y="560" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_M1_di" bpmnElement="Flow_M1">
+        <di:waypoint x="936" y="198" />
+        <di:waypoint x="990" y="198" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_M2_di" bpmnElement="Flow_M2">
+        <di:waypoint x="1090" y="198" />
+        <di:waypoint x="1140" y="198" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Atraso_Nao_di" bpmnElement="Flow_Atraso_Nao">
+        <di:waypoint x="1165" y="173" />
+        <di:waypoint x="1165" y="136" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1170" y="152" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Atraso_Sim_di" bpmnElement="Flow_Atraso_Sim">
+        <di:waypoint x="1190" y="198" />
+        <di:waypoint x="1220" y="198" />
+        <di:waypoint x="1220" y="169" />
+        <di:waypoint x="1250" y="169" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1200" y="203" width="19" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_M3_di" bpmnElement="Flow_M3">
+        <di:waypoint x="1300" y="209" />
+        <di:waypoint x="1300" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_M4_di" bpmnElement="Flow_M4">
+        <di:waypoint x="1330" y="370" />
+        <di:waypoint x="1330" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_M5_di" bpmnElement="Flow_M5">
+        <di:waypoint x="1350" y="280" />
+        <di:waypoint x="1375" y="280" />
+        <di:waypoint x="1375" y="220" />
+        <di:waypoint x="1400" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09qsuq8_di" bpmnElement="Flow_09qsuq8">
+        <di:waypoint x="1280" y="320" />
+        <di:waypoint x="1280" y="370" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
