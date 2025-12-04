@@ -1,6 +1,5 @@
-========================================================================
-                SISTEMA LIVRARIA RESOLVE - GRUPO F
-========================================================================
+
+SISTEMA LIVRARIA RESOLVE - GRUPO F
 
 INSTITUIÇÃO:
 Universidade Federal do Rio de Janeiro - UFRJ
